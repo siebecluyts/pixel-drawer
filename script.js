@@ -7,6 +7,57 @@ const tintSlider = document.getElementById('tint');
 const downloadButton = document.getElementById('download');
 const clearCanvasButton = document.getElementById('clearCanvas');
 const eraserButton = document.getElementById('eraser');
+const imageUpload = document.getElementById('imageUpload');
+
+// Handle image upload
+imageUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            img.src = e.target.result;
+        };
+
+        img.onload = function() {
+            drawImageAsPixels(img);
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+
+// Draw the uploaded image as pixel art
+function drawImageAsPixels(img) {
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+
+    // Resize the image to fit the canvas
+    tempCanvas.width = canvas.width / pixelSize;
+    tempCanvas.height = canvas.height / pixelSize;
+
+    tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+
+    const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
+
+    // Draw pixels on the main canvas
+    for (let y = 0; y < tempCanvas.height; y++) {
+        for (let x = 0; x < tempCanvas.width; x++) {
+            const index = (y * tempCanvas.width + x) * 4;
+            const r = imageData[index];
+            const g = imageData[index + 1];
+            const b = imageData[index + 2];
+            const a = imageData[index + 3];
+
+            if (a > 0) { // Ignore transparent pixels
+                const color = `rgba(${r},${g},${b},${a / 255})`;
+                drawPixel(x * pixelSize, y * pixelSize, color);
+            }
+        }
+    }
+}
+
 
 let currentColor = '#000000';
 let pixelSize = 10;
