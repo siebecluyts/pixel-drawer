@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art Drawer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Pixel Art Drawer</h1>
+        <div id="controls">
+            <button id="download">Download Art</button>
+            <button id="clearCanvas">Clear Canvas</button>
+            <button id="eraser">Eraser</button>
+            <div class="control-group">
+                <label for="colorPicker">Pick Color:</label>
+                <input type="color" id="colorPicker">
+            </div>
+            <div class="control-group">
+                <label for="sizePicker">Pixel Size:</label>
+                <input type="number" id="sizePicker" min="1" max="50" value="10">
+            </div>
+            <div class="control-group">
+                <label for="tint">Color Tint:</label>
+                <input type="range" id="tint" min="0" max="100" value="0">
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
